@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>a.palebluedot</title>
+
 <style>
-/* 기본 리셋 */
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100%; height:100%; overflow:hidden; }
 
@@ -19,35 +19,33 @@ canvas {
   position:fixed;
   inset:0;
   z-index:0;
-  pointer-events: none; /* 캔버스 입력 방지 */
+  pointer-events:none;
 }
 
 .scene {
   position:relative;
   z-index:1;
-  width:100%; height:100%;
+  width:100%;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-.center {
-  text-align:center;
-}
+.center { text-align:center; }
 
 .title {
   font-size: clamp(3rem, 8vw, 7rem);
   font-weight:700;
   letter-spacing:-0.04em;
   transition: transform 0.3s ease;
-  user-select: none;
+  user-select:none;
 }
 
 .sub {
   margin-top:1.5rem;
   display:flex;
   justify-content:center;
-  gap:3rem;
   opacity:0;
   transform: translateY(10px);
   transition: all 0.6s ease;
@@ -59,53 +57,59 @@ canvas {
 }
 
 .link {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  user-select:none;
 }
 
-/* --- 버튼 스타일 수정 --- */
+/* 기본 상태 */
 .link.enter {
-  padding: 0.9rem 2.4rem;
-  
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 6px;
-  background: transparent; 
-  color: rgba(255, 255, 255, 0.8);
-  
-  /* [핵심 수정] 기본 상태에서 그림자를 강하게 줘서 공중에 떠있는 느낌 구현 */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.1);
-  
-  /* 부드러운 움직임 */
-  transition: all 0.1s;
+  position:relative;
+  padding:0.9rem 2.4rem;
+  border:1px solid rgba(255,255,255,0.5);
+  border-radius:6px;
+  background:transparent;
+  color:rgba(255,255,255,0.85);
+
+  /* 누르기 전 은은한 흰 그림자 */
+  box-shadow:
+    0 0 12px rgba(255,255,255,0.25),
+    0 8px 20px rgba(0,0,0,0.6);
+
+  transition: all 0.15s ease;
+  overflow:hidden;
 }
 
-/* 마우스 올렸을 때 (Hover) */
-.link.enter:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-  /* 살짝 더 위로 뜨는 느낌 */
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.3);
+/* 클릭 순간 퍼지는 빛 */
+.link.enter::after {
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:10px;
+  box-shadow: 0 0 0 rgba(255,255,255,0);
+  opacity:0;
+  transition: opacity 0.15s ease;
+  pointer-events:none;
 }
 
-/* [핵심 수정] 클릭했을 때 (Active) - 물리적으로 눌림 */
+/* 눌렀을 때 */
 .link.enter:active {
-  /* 1. 그림자가 줄어듦 (바닥에 닿음) */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  
-  /* 2. 버튼이 그림자 높이만큼 아래로 내려감 */
-  transform: translateY(4px);
-  
-  border-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.6);
+  transform: translateY(2px);
+  color:#ffffff;
 }
 
+/* 눌렀을 때 흰 빛 폭발 */
+.link.enter:active::after {
+  opacity:1;
+  box-shadow:
+    0 0 25px rgba(255,255,255,0.9),
+    0 0 60px rgba(255,255,255,0.6);
+}
 </style>
 </head>
+
 <body>
 
 <canvas id="bg"></canvas>
@@ -122,6 +126,8 @@ canvas {
 <script>
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
+const scene = document.getElementById('scene');
+const title = document.getElementById('title');
 
 let w, h;
 function resize() {
@@ -131,21 +137,16 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
-const particles = Array.from({ length: 120 }, () => {
-  const cx = Math.random() * w;
-  const cy = Math.random() * h;
-  return {
-    cx,
-    cy,
-    angle: Math.random() * Math.PI * 2,
-    speed: 0.001 + Math.random() * 0.002,
-    radius: 10 + Math.random() * 40,
-    offset: Math.random() * 1000
-  };
-});
+const particles = Array.from({ length: 120 }, () => ({
+  cx: Math.random() * w,
+  cy: Math.random() * h,
+  angle: Math.random() * Math.PI * 2,
+  speed: 0.001 + Math.random() * 0.002,
+  radius: 10 + Math.random() * 40,
+  offset: Math.random() * 1000
+}));
 
 let t = 0;
-
 function draw() {
   ctx.fillStyle = '#0b1020';
   ctx.fillRect(0, 0, w, h);
@@ -154,7 +155,6 @@ function draw() {
     p.angle += p.speed;
     const x = p.cx + Math.cos(p.angle + t * 0.001 + p.offset) * p.radius;
     const y = p.cy + Math.sin(p.angle + t * 0.001 + p.offset) * p.radius;
-
     ctx.beginPath();
     ctx.arc(x, y, 1.2, 0, Math.PI * 2);
     ctx.fillStyle = '#ffffff';
@@ -164,7 +164,6 @@ function draw() {
   t++;
   requestAnimationFrame(draw);
 }
-
 draw();
 
 setTimeout(() => {
@@ -172,11 +171,5 @@ setTimeout(() => {
 }, 700);
 
 window.addEventListener('mousemove', e => {
-  const x = (e.clientX - w/2) * 0.002;
-  const y = (e.clientY - h/2) * 0.002;
-  title.style.transform = `translate(${x*20}px, ${y*20}px)`;
-});
-</script>
-
-</body>
-</html>
+  const x = (e.clientX - w / 2) * 0.002;
+  const y = (e.cl
