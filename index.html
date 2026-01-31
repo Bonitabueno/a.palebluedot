@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>a.palebluedot</title>
+
 <style>
-/* 기본 리셋 */
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100%; height:100%; overflow:hidden; }
 
@@ -19,13 +19,14 @@ canvas {
   position:fixed;
   inset:0;
   z-index:0;
-  pointer-events: none; /* 캔버스 클릭 방지 필수 */
+  pointer-events:none;
 }
 
 .scene {
   position:relative;
   z-index:1;
-  width:100%; height:100%;
+  width:100%;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -40,14 +41,13 @@ canvas {
   font-weight:700;
   letter-spacing:-0.04em;
   transition: transform 0.3s ease;
-  user-select: none;
+  user-select:none;
 }
 
 .sub {
   margin-top:1.5rem;
   display:flex;
   justify-content:center;
-  gap:3rem;
   opacity:0;
   transform: translateY(10px);
   transition: all 0.6s ease;
@@ -59,52 +59,46 @@ canvas {
 }
 
 .link {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  user-select:none;
 }
 
-/* --- 버튼 스타일 수정 --- */
+/* Enter 버튼 기본 상태 */
 .link.enter {
   padding: 0.9rem 2.4rem;
-  
-  /* 평소 상태 */
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255,255,255,0.4);
   border-radius: 6px;
-  background: transparent; 
-  color: rgba(255, 255, 255, 0.8);
-  
-  /* 부드럽지만 빠른 전환 */
-  transition: all 0.1s ease-in-out;
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  transition: all 0.15s ease-out;
 }
 
-/* 마우스 올렸을 때 (Hover) */
+/* Hover */
 .link.enter:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-  /* 밖으로 퍼지는 빛 (Glow) */
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px); /* 살짝 위로 뜸 */
+  border-color:#ffffff;
+  color:#ffffff;
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 20px rgba(255,255,255,0.3);
+  transform: translateY(-1px);
 }
 
-/* [핵심] 클릭했을 때 (Active) - 확실하게 눌리는 효과 */
-.link.enter:active {
-  /* 1. 위치를 4px 아래로 푹 내림 (눌리는 동작) */
-  transform: translateY(4px); 
-  
-  /* 2. 안쪽 그림자(inset)를 강하게 주어 움푹 들어간 느낌 연출 */
-  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6); 
-  
-  /* 3. 테두리와 글자를 약간 어둡게 처리해 깊이감 추가 */
-  border-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.6);
+/* 눌렀을 때 유지되는 상태 */
+.link.enter.pressed {
+  background: rgba(255,255,255,0.22);
+  border-color:#ffffff;
+  color:#ffffff;
+  box-shadow:
+    inset 0 6px 14px rgba(0,0,0,0.6),
+    0 0 18px rgba(255,255,255,0.6);
+  transform: translateY(2px) scale(0.98);
 }
-
 </style>
 </head>
+
 <body>
 
 <canvas id="bg"></canvas>
@@ -121,6 +115,9 @@ canvas {
 <script>
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
+const scene = document.getElementById('scene');
+const title = document.getElementById('title');
+const enterBtn = document.querySelector('.link.enter');
 
 let w, h;
 function resize() {
@@ -130,6 +127,7 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
+/* 별 파티클 */
 const particles = Array.from({ length: 120 }, () => {
   const cx = Math.random() * w;
   const cy = Math.random() * h;
@@ -144,7 +142,6 @@ const particles = Array.from({ length: 120 }, () => {
 });
 
 let t = 0;
-
 function draw() {
   ctx.fillStyle = '#0b1020';
   ctx.fillRect(0, 0, w, h);
@@ -163,17 +160,27 @@ function draw() {
   t++;
   requestAnimationFrame(draw);
 }
-
 draw();
 
+/* 진입 애니메이션 */
 setTimeout(() => {
   scene.classList.add('active');
 }, 700);
 
+/* 타이틀 패럴랙스 */
 window.addEventListener('mousemove', e => {
-  const x = (e.clientX - w/2) * 0.002;
-  const y = (e.clientY - h/2) * 0.002;
-  title.style.transform = `translate(${x*20}px, ${y*20}px)`;
+  const x = (e.clientX - w / 2) * 0.002;
+  const y = (e.clientY - h / 2) * 0.002;
+  title.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+});
+
+/* Enter 버튼 클릭 피드백 */
+enterBtn.addEventListener('click', () => {
+  enterBtn.classList.add('pressed');
+
+  setTimeout(() => {
+    enterBtn.classList.remove('pressed');
+  }, 180);
 });
 </script>
 
