@@ -54,6 +54,7 @@ canvas {
   transform: translateY(0);
 }
 
+
 .link {
   font-size:0.85rem;
   letter-spacing:0.08em;
@@ -72,6 +73,27 @@ canvas {
 }
 
 .link:hover::after { width:100%; }
+  
+.link.enter {
+  padding: 0.9rem 2.4rem;
+  border: 1px solid rgba(245,245,245,0.8);
+  border-radius: 6px;
+  background: transparent;
+  transition: 
+    background 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.link.enter::after {
+  display: none;
+}
+
+.link.enter:hover {
+  background: rgba(245,245,245,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
 </style>
 </head>
 <body>
@@ -82,8 +104,7 @@ canvas {
   <div class="center">
     <div class="title" id="title">a.palebluedot</div>
     <div class="sub">
-      <div class="link">0331project</div>
-      <div class="link">other side</div>
+      <div class="link enter">Enter</div>
     </div>
   </div>
 </div>
