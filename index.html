@@ -117,9 +117,9 @@ window.addEventListener('mousemove', e => {
 
 function draw() {
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = '#0e0e0e';
+  ctx.fillStyle = '#0b1020';
   ctx.fillRect(0,0,w,h);
-
+  
   particles.forEach(p => {
     const dx = mouse.x - p.x;
     const dy = mouse.y - p.y;
