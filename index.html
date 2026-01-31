@@ -86,6 +86,7 @@ canvas {
   color: rgba(255, 255, 255, 0.85);
   
   transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* 호버 시: 부드럽게 확대 + 밝아지는 효과 */
@@ -98,7 +99,8 @@ canvas {
 }
 
 /* 클릭 시: 살짝 축소되는 자연스러운 효과 */
-.link.enter:active {
+.link.enter:active,
+.link.enter.clicked {
   transform: scale(0.95);
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.05);
@@ -172,6 +174,29 @@ window.addEventListener('mousemove', () => {
   mouseTimeout = setTimeout(() => {
     title.style.animation = 'float 3s ease-in-out infinite';
   }, 2000);
+});
+
+// Enter 버튼 클릭 효과 (Safari 호환)
+const enterBtn = document.querySelector('.link.enter');
+enterBtn.addEventListener('mousedown', () => {
+  enterBtn.classList.add('clicked');
+});
+enterBtn.addEventListener('mouseup', () => {
+  setTimeout(() => {
+    enterBtn.classList.remove('clicked');
+  }, 150);
+});
+enterBtn.addEventListener('mouseleave', () => {
+  enterBtn.classList.remove('clicked');
+});
+// 터치 디바이스 지원
+enterBtn.addEventListener('touchstart', () => {
+  enterBtn.classList.add('clicked');
+});
+enterBtn.addEventListener('touchend', () => {
+  setTimeout(() => {
+    enterBtn.classList.remove('clicked');
+  }, 150);
 });
 </script>
 </body>
