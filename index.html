@@ -54,7 +54,6 @@ canvas {
   transform: translateY(0);
 }
 
-
 .link {
   font-size:0.85rem;
   letter-spacing:0.08em;
@@ -83,15 +82,30 @@ canvas {
     background 0.3s ease,
     transform 0.25s ease,
     box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
 
+.link.enter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(245,245,245,0.15);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.link.enter:hover::before {
+  opacity: 1;
+}
+ 
 .link.enter::after {
   display: none;
 }
 
 .link.enter:hover {
   background: rgba(245,245,245,0.08);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }
 </style>
