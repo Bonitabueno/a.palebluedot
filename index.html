@@ -91,8 +91,6 @@ canvas {
 <script>
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
-const scene = document.getElementById('scene');
-const title = document.getElementById('title');
 
 let w, h;
 function resize() {
@@ -102,44 +100,43 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
-let particles = Array.from({length:120}, () => {
-  const x = Math.random() * w;
-  const y = Math.random() * h;
+const particles = Array.from({ length: 120 }, () => {
+  const cx = Math.random() * w;
+  const cy = Math.random() * h;
   return {
-    x,
-    y,
-    ox: x,
-    oy: y,
+    cx,
+    cy,
     angle: Math.random() * Math.PI * 2,
     speed: 0.001 + Math.random() * 0.002,
-    radius: 10 + Math.random() * 20
+    radius: 10 + Math.random() * 40,
+    offset: Math.random() * 1000
   };
 });
-  
-let mouse = { x: w/2, y: h/2 };
-window.addEventListener('mousemove', e => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
+
+let t = 0;
 
 function draw() {
-  ctx.clearRect(0,0,w,h);
   ctx.fillStyle = '#0b1020';
-  ctx.fillRect(0,0,w,h);
+  ctx.fillRect(0, 0, w, h);
 
   particles.forEach(p => {
     p.angle += p.speed;
-    const tx = p.ox + Math.cos(p.angle) * p.radius;
-    const ty = p.oy + Math.sin(p.angle) * p.radius;
 
-    p.x += (tx - p.x) * 0.05;
-    p.y += (ty - p.y) * 0.05;
+    const x =
+      p.cx +
+      Math.cos(p.angle + t * 0.001 + p.offset) * p.radius;
+
+    const y =
+      p.cy +
+      Math.sin(p.angle + t * 0.001 + p.offset) * p.radius;
 
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+    ctx.arc(x, y, 1.2, 0, Math.PI * 2);
     ctx.fillStyle = '#ffffff';
     ctx.fill();
   });
+
+  t++;
   requestAnimationFrame(draw);
 }
 
