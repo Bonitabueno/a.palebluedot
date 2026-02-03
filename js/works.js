@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 // JSON 데이터 가져오기 함수
 async function loadData() {
   try {
-    const response = await fetch('data/works.json'); 
+    const response = await fetch('https://raw.githubusercontent.com/Bonitabueno/Bonitabueno/refs/heads/main/works.json'); 
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
