@@ -1,0 +1,14 @@
+/* 페이지 진입 시 흰색 불빛 효과 */
+.white-flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.98) 100%);
+  z-index: 99999;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 2s ease-out;
+}
+
+.white-flash-overlay.fade-out {
+  opacity: 0;
+}
