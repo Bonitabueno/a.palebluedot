@@ -96,8 +96,10 @@
     </div>
   </div>
 
-  <div class="relative z-30 flex flex-col h-full justify-between pointer-events-none p-6 md:p-8">
-    <header class="flex justify-between items-start pointer-events-auto">
+  <!-- 레이아웃 개선: 헤더, 컨텐츠, 푸터 간 일관된 간격 -->
+  <div class="relative z-30 flex flex-col h-full pointer-events-none">
+    <!-- 헤더 영역 -->
+    <header class="flex justify-between items-start pointer-events-auto px-6 pt-6 md:px-8 md:pt-8 shrink-0">
       <div class="p-4 flex items-center gap-4">
         <div>
           <h1 class="text-xl md:text-2xl font-display font-bold leading-none tracking-wide text-black drop-shadow-[0_4px_3px_rgba(0,0,0,0.3)]">
@@ -112,7 +114,11 @@
       </button>
     </header>
 
-    <footer class="w-full pointer-events-auto pb-[calc(2rem+env(safe-area-inset-bottom))] md:pb-8 px-4">
+    <!-- 중앙 여백 (flex-1로 자동 조정) -->
+    <div class="flex-1 min-h-0"></div>
+
+    <!-- 푸터 영역 -->
+    <footer class="w-full pointer-events-auto pb-[calc(2rem+env(safe-area-inset-bottom))] md:pb-8 px-6 md:px-8 shrink-0">
       <div class="max-w-4xl mx-auto flex flex-col items-center">
         <div class="glass-panel rounded-3xl p-3 w-full backdrop-blur-2xl shadow-xl bg-white/80 border-white/60">
           <div class="flex items-center gap-4">
