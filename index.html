@@ -233,12 +233,9 @@ enterBtn.addEventListener('touchend', () => {
   }, 150);
 });
 
-// Enter 버튼 클릭 시 페이지 전환
+// Enter 버튼 클릭 시 works.html로 이동
 enterBtn.addEventListener('click', () => {
-  transition.classList.add('active');
-  setTimeout(() => {
-    window.location.href = 'works.html';
-  }, 800);
+  window.location.href = 'works.html';
 });
 </script>
 </body>
