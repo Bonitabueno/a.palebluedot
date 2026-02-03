@@ -54,8 +54,27 @@
             }
         }
     </style>
+<style>
+/* 페이지 진입 시 흰색 불빛 효과 */
+.white-flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.98) 100%);
+    z-index: 99999;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 1.2s ease-out;
+}
+
+.white-flash-overlay.fade-out {
+    opacity: 0;
+}
+</style>
 </head>
 <body class="bg-background-light text-text-dark overflow-hidden h-screen w-screen relative font-sans">
+<!-- 흰색 불빛 오버레이 -->
+<div class="white-flash-overlay" id="whiteFlash"></div>
+
 <div class="absolute inset-0 z-0 bg-[#f4f2f0] overflow-hidden">
 <div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-multiply" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlQjycRsRgsWhpkv8xuKasfGzudI4GOrYX2rDeZpYJXtd2zeBbu1zQ8V2uDdBBbE1RYMOAHsjvLx5YYi8Vedv8sz7l6ovPLCmU1XEXWGTQuIls0MWYHZv5aq5Q9f0bZQRsfMDenjer4hL5wQoAdA6PlcmGupCYkFZn-Xtv-pxniH6v1mOEUbHYUfmH2UWDE6e2F8rTbI0BoGUQUDh5O2uWP8K0YphH-_frH5iUy2LdKMSDUZz3USCaG6ijYvkWrHx871sAP_q2Gpip'); filter: blur(4px);"></div>
 <div class="absolute inset-0 bg-gradient-to-b from-[#ffffff]/80 via-[#f7f5f3]/40 to-transparent"></div>
@@ -216,4 +235,15 @@
 </div>
 </footer>
 </div>
-</body></html>
+
+<script>
+// 페이지 로드 시 흰색 불빛 효과 페이드 아웃
+window.addEventListener('DOMContentLoaded', function() {
+    const whiteFlash = document.getElementById('whiteFlash');
+    setTimeout(function() {
+        whiteFlash.classList.add('fade-out');
+    }, 150);
+});
+</script>
+</body>
+</html>
