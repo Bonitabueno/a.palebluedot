@@ -47,6 +47,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // JSON 데이터 가져오기 함수
 async function loadData() {
+  const errorEl = document.getElementById('error-message'); // 오류 메시지 엘리먼트
+
   try {
     const response = await fetch('https://raw.githubusercontent.com/Bonitabueno/Bonitabueno/refs/heads/main/works.json'); 
     
@@ -56,13 +58,28 @@ async function loadData() {
 
     worksData = await response.json();
 
-    // 데이터 로드 후 화면 렌더링 시작
-    if (worksData.length > 0) {
+    if (worksData && worksData.length > 0) {
+      // 성공 시: 이미지 보여주고 에러 메시지 숨김
+      if (els.mainImg) els.mainImg.classList.remove('hidden');
+      if (errorEl) errorEl.classList.add('hidden');
+      
       renderThumbnails();
       updateDisplay(0);
+    } else {
+      throw new Error("데이터가 비어있습니다.");
     }
+
   } catch (error) {
-    console.error("데이터를 불러오는 데 실패했습니다:", error);
+    console.error("데이터 로드 실패:", error);
+    
+    // 실패 시: 이미지 숨기고 에러 메시지 표시
+    if (els.mainImg) els.mainImg.classList.add('hidden');
+    if (errorEl) {
+      errorEl.classList.remove('hidden');
+      errorEl.textContent = "오류가 발생했습니다.";
+    }
+    
+    // 모달 내부 타이틀도 변경
     if (els.title) els.title.textContent = "Data Loading Failed";
   }
 }
