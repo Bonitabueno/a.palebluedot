@@ -13,6 +13,36 @@ body {
   background:#0c1226;
   color:#f5f5f5;
 }
+
+/* 화면 전환 효과 - 흰색 불빛 */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease-out;
+}
+
+.transition-overlay.active {
+  opacity: 1;
+}
+
+/* 화면 전환 효과 */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 100%);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-out;
+}
+
+.transition-overlay.active {
+  opacity: 1;
+}
 canvas {
   position:fixed;
   inset:0;
@@ -109,6 +139,7 @@ canvas {
 </style>
 </head>
 <body>
+<div class="transition-overlay" id="transition"></div>
 <canvas id="bg"></canvas>
 <div class="scene" id="scene">
   <div class="center">
@@ -178,6 +209,8 @@ window.addEventListener('mousemove', () => {
 
 // Enter 버튼 클릭 효과 (Safari 호환)
 const enterBtn = document.querySelector('.link.enter');
+const transition = document.getElementById('transition');
+
 enterBtn.addEventListener('mousedown', () => {
   enterBtn.classList.add('clicked');
 });
@@ -189,6 +222,7 @@ enterBtn.addEventListener('mouseup', () => {
 enterBtn.addEventListener('mouseleave', () => {
   enterBtn.classList.remove('clicked');
 });
+
 // 터치 디바이스 지원
 enterBtn.addEventListener('touchstart', () => {
   enterBtn.classList.add('clicked');
@@ -197,6 +231,14 @@ enterBtn.addEventListener('touchend', () => {
   setTimeout(() => {
     enterBtn.classList.remove('clicked');
   }, 150);
+});
+
+// Enter 버튼 클릭 시 페이지 전환
+enterBtn.addEventListener('click', () => {
+  transition.classList.add('active');
+  setTimeout(() => {
+    window.location.href = 'works.html';
+  }, 800);
 });
 </script>
 </body>
