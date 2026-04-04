@@ -16,11 +16,11 @@ window.addEventListener('DOMContentLoaded', function() {
 let worksData = []; 
 let currentIndex = 0;
 let carouselItems = []; // 동적으로 생성될 캐러셀 이미지 배열
-let touchStartX = 0;    // 스와이프 시작 좌표 추가
-let touchEndX = 0;      // 스와이프 종료 좌표 추가
+let isDragging = false; // 드래그 상태 확인 변수
+let startX = 0;         // 밀기 시작 X 좌표
 
 // ============================================
-// 2. LOGIC: DOM 선택 (단일 이미지에서 캐러셀로 변경)
+// 2. LOGIC: DOM 선택
 // ============================================
 const els = {
   // 캐러셀 컨테이너
@@ -90,7 +90,10 @@ function initCarousel() {
     img.className = 'absolute inset-0 w-full h-full object-contain cursor-pointer transition-all duration-700 ease-in-out will-change-transform';
     
     // 클릭 이벤트 분기 처리
-    img.addEventListener('click', () => {
+    img.addEventListener('click', (e) => {
+      // 드래그 중 발생한 클릭 이벤트는 무시
+      if (isDragging) return;
+      
       if (currentIndex === index) {
         // 1) 중앙에 위치한 이미지를 클릭 시 모달 열기
         openModal(data);
@@ -104,40 +107,45 @@ function initCarousel() {
     carouselItems.push(img);
   });
 
-  // 스와이프(터치 롤링) 및 마우스 드래그 이벤트 리스너 넓은 영역(window)으로 확장 추가
-  window.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-  
-  window.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
+  // 드래그(밀기) 이벤트 핸들러
+  const dragStart = (e) => {
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+  };
 
-  // PC 환경에서의 마우스 조작 추가
-  window.addEventListener('mousedown', (e) => {
-    touchStartX = e.screenX;
-  });
+  const dragMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    const diff = currentX - startX;
 
-  window.addEventListener('mouseup', (e) => {
-    touchEndX = e.screenX;
-    handleSwipe();
-  });
+    // 50px 이상 밀었을 때 롤링 동작 트리거
+    if (diff > 50) {
+      updateDisplay(currentIndex - 1);
+      isDragging = false; // 한 번 롤링 후 추가 동작 방지
+    } else if (diff < -50) {
+      updateDisplay(currentIndex + 1);
+      isDragging = false;
+    }
+  };
+
+  const dragEnd = () => {
+    isDragging = false;
+  };
+
+  // 모바일 터치 이벤트
+  els.carouselContainer.addEventListener('touchstart', dragStart, { passive: true });
+  els.carouselContainer.addEventListener('touchmove', dragMove, { passive: true });
+  els.carouselContainer.addEventListener('touchend', dragEnd);
+  els.carouselContainer.addEventListener('touchcancel', dragEnd);
+
+  // PC 마우스 이벤트
+  els.carouselContainer.addEventListener('mousedown', dragStart);
+  els.carouselContainer.addEventListener('mousemove', dragMove);
+  els.carouselContainer.addEventListener('mouseup', dragEnd);
+  els.carouselContainer.addEventListener('mouseleave', dragEnd);
   
   // 최초 디스플레이 업데이트
   updateDisplay(0);
-}
-
-// 스와이프 처리 로직 추가
-function handleSwipe() {
-  const threshold = 50; // 스와이프 인식 최소 픽셀 거리
-  if (touchStartX - touchEndX > threshold) {
-    // 왼쪽으로 스와이프 -> 다음 이미지
-    updateDisplay(currentIndex + 1);
-  } else if (touchEndX - touchStartX > threshold) {
-    // 오른쪽으로 스와이프 -> 이전 이미지
-    updateDisplay(currentIndex - 1);
-  }
 }
 
 // ============================================
@@ -158,25 +166,25 @@ function updateDisplay(index) {
     
     if (diff === 0) {
       // 1) 중앙 이미지 (포커스)
-      item.style.transform = 'translateX(0) scale(0.85)'; // 크기 축소 반영
+      item.style.transform = 'translateX(0) scale(0.85)';
       item.style.zIndex = 30;
       item.style.opacity = 1;
       item.style.pointerEvents = 'auto';
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // 2) 우측 이미지
-      item.style.transform = 'translateX(65%) scale(0.55)'; // 크기 축소 반영
+      item.style.transform = 'translateX(65%) scale(0.55)';
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
     } else if (diff === total - 1) {
       // 3) 좌측 이미지
-      item.style.transform = 'translateX(-65%) scale(0.55)'; // 크기 축소 반영
+      item.style.transform = 'translateX(-65%) scale(0.55)';
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
     } else {
       // 4) 그 외의 이미지 (후면 숨김 처리)
-      item.style.transform = 'translateX(0) scale(0.3)'; // 크기 축소 반영
+      item.style.transform = 'translateX(0) scale(0.3)';
       item.style.zIndex = 10;
       item.style.opacity = 0;
       item.style.pointerEvents = 'none';
