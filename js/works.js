@@ -85,6 +85,7 @@ function initCarousel() {
     const img = document.createElement('img');
     img.src = data.image;
     img.alt = data.title;
+    img.draggable = false; // 마우스 드래그 시 고스트 이미지 방지
     // 캐러셀 아이템 기본 스타일 (Tailwind 클래스 적용)
     img.className = 'absolute inset-0 w-full h-full object-contain cursor-pointer transition-all duration-700 ease-in-out will-change-transform';
     
@@ -103,15 +104,25 @@ function initCarousel() {
     carouselItems.push(img);
   });
 
-  // 스와이프(터치 롤링) 이벤트 리스너 추가
-  els.carouselContainer.addEventListener('touchstart', (e) => {
+  // 스와이프(터치 롤링) 및 마우스 드래그 이벤트 리스너 넓은 영역(window)으로 확장 추가
+  window.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
   
-  els.carouselContainer.addEventListener('touchend', (e) => {
+  window.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
     handleSwipe();
   }, { passive: true });
+
+  // PC 환경에서의 마우스 조작 추가
+  window.addEventListener('mousedown', (e) => {
+    touchStartX = e.screenX;
+  });
+
+  window.addEventListener('mouseup', (e) => {
+    touchEndX = e.screenX;
+    handleSwipe();
+  });
   
   // 최초 디스플레이 업데이트
   updateDisplay(0);
