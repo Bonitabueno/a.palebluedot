@@ -16,6 +16,8 @@ window.addEventListener('DOMContentLoaded', function() {
 let worksData = []; 
 let currentIndex = 0;
 let carouselItems = []; // 동적으로 생성될 캐러셀 이미지 배열
+let touchStartX = 0;    // 스와이프 시작 좌표 추가
+let touchEndX = 0;      // 스와이프 종료 좌표 추가
 
 // ============================================
 // 2. LOGIC: DOM 선택 (단일 이미지에서 캐러셀로 변경)
@@ -100,9 +102,31 @@ function initCarousel() {
     els.carouselContainer.appendChild(img);
     carouselItems.push(img);
   });
+
+  // 스와이프(터치 롤링) 이벤트 리스너 추가
+  els.carouselContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  els.carouselContainer.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
   
   // 최초 디스플레이 업데이트
   updateDisplay(0);
+}
+
+// 스와이프 처리 로직 추가
+function handleSwipe() {
+  const threshold = 50; // 스와이프 인식 최소 픽셀 거리
+  if (touchStartX - touchEndX > threshold) {
+    // 왼쪽으로 스와이프 -> 다음 이미지
+    updateDisplay(currentIndex + 1);
+  } else if (touchEndX - touchStartX > threshold) {
+    // 오른쪽으로 스와이프 -> 이전 이미지
+    updateDisplay(currentIndex - 1);
+  }
 }
 
 // ============================================
@@ -123,25 +147,25 @@ function updateDisplay(index) {
     
     if (diff === 0) {
       // 1) 중앙 이미지 (포커스)
-      item.style.transform = 'translateX(0) scale(1)';
+      item.style.transform = 'translateX(0) scale(0.85)'; // 크기 축소 반영
       item.style.zIndex = 30;
       item.style.opacity = 1;
       item.style.pointerEvents = 'auto';
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // 2) 우측 이미지
-      item.style.transform = 'translateX(65%) scale(0.7)';
+      item.style.transform = 'translateX(65%) scale(0.55)'; // 크기 축소 반영
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
     } else if (diff === total - 1) {
       // 3) 좌측 이미지
-      item.style.transform = 'translateX(-65%) scale(0.7)';
+      item.style.transform = 'translateX(-65%) scale(0.55)'; // 크기 축소 반영
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
     } else {
       // 4) 그 외의 이미지 (후면 숨김 처리)
-      item.style.transform = 'translateX(0) scale(0.4)';
+      item.style.transform = 'translateX(0) scale(0.3)'; // 크기 축소 반영
       item.style.zIndex = 10;
       item.style.opacity = 0;
       item.style.pointerEvents = 'none';
