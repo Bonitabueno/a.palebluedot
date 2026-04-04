@@ -43,6 +43,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   setupModalEvents(); // 모달 닫기 이벤트 연결
 });
 
+// 리사이즈 이벤트 감지하여 스케일 실시간 반영
+window.addEventListener('resize', () => {
+  if (worksData.length > 0) {
+    updateDisplay(currentIndex);
+  }
+});
+
 // JSON 데이터 가져오기 함수
 async function loadData() {
   const errorEl = document.getElementById('error-message');
@@ -160,25 +167,30 @@ function updateDisplay(index) {
   currentIndex = index;
   const total = carouselItems.length;
 
+  // 화면 너비에 따른 스케일 비율 설정 (모바일 기준 768px 미만)
+  const isMobile = window.innerWidth < 768;
+  const centerScale = isMobile ? 0.7 : 0.85;
+  const sideScale = isMobile ? 0.45 : 0.55;
+
   carouselItems.forEach((item, i) => {
     // 현재 인덱스를 기준으로 각 아이템의 상대적 위치 계산
     let diff = (i - currentIndex + total) % total;
     
     if (diff === 0) {
       // 1) 중앙 이미지 (포커스)
-      item.style.transform = 'translateX(0) scale(0.85)';
+      item.style.transform = `translateX(0) scale(${centerScale})`;
       item.style.zIndex = 30;
       item.style.opacity = 1;
       item.style.pointerEvents = 'auto';
     } else if (diff === 1 || (total === 2 && diff === 1)) {
       // 2) 우측 이미지
-      item.style.transform = 'translateX(65%) scale(0.55)';
+      item.style.transform = `translateX(65%) scale(${sideScale})`;
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
     } else if (diff === total - 1) {
       // 3) 좌측 이미지
-      item.style.transform = 'translateX(-65%) scale(0.55)';
+      item.style.transform = `translateX(-65%) scale(${sideScale})`;
       item.style.zIndex = 20;
       item.style.opacity = 0.5;
       item.style.pointerEvents = 'auto';
