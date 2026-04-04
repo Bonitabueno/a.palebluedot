@@ -81,14 +81,13 @@
     </div>
     <div class="absolute top-0 left-0 w-full h-full z-15 pointer-events-none opacity-30 mix-blend-overlay leaf-shadow"></div>
     
-    <div class="absolute top-[45%] md:top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[75vw] md:w-[90vw] md:h-[90vw] max-w-[600px] max-h-[600px] flex items-center justify-center z-20">
-      <div class="flex flex-col items-center gap-4">
+    <div class="absolute top-[45%] md:top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[75vw] md:w-[90vw] md:h-[90vw] max-w-[800px] max-h-[600px] flex items-center justify-center z-20">
+      <div class="flex flex-col items-center gap-4 w-full">
         <p class="text-[12px] md:text-xs font-bold text-text-muted drop-shadow-sm text-center animate-pulse">
           이미지를 누르면 정보를 확인할 수 있습니다.
         </p>
-        <div class="relative z-30 transform transition-transform duration-700 hover:scale-105" style="filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25));">
-          <img id="main-image" alt="View of Ceramic Piece" class="cursor-pointer w-[80vw] md:w-[80vw] max-w-[420px] object-contain relative z-10" src="" />
-          <div id="error-message" class="hidden absolute inset-0 flex items-center justify-center text-center text-text-muted font-bold text-lg p-10 bg-white/20 rounded-full backdrop-blur-sm">
+        <div id="carousel-container" class="relative z-30 w-full max-w-[420px] aspect-square flex items-center justify-center hidden transition-transform duration-700 hover:scale-105" style="filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25)); perspective: 1000px;">
+          <div id="error-message" class="hidden absolute inset-0 flex items-center justify-center text-center text-text-muted font-bold text-lg p-10 bg-white/20 rounded-full backdrop-blur-sm z-[60]">
             오류가 발생했습니다.
           </div>
         </div>
