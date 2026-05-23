@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>a.palebluedot23</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght=300;400;500;700;800&amp;family=Playfair+Display:ital,wght=0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght=300;400;500;700;800&family=Playfair+Display:ital,wght=0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -13,8 +13,8 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#b8860b", 
-                        "background-light": "#f4f1ea", 
+                        "primary": "#b8860b", // 골든 브라운
+                        "background-light": "#f4f1ea", // 웜 베이지
                         "background-dark": "#1e1b18", 
                         "surface-dark": "#2a2622", 
                         "clay-red": "#9a4a3c", 
@@ -23,24 +23,28 @@
                     fontFamily: {
                         display: ["Manrope", "sans-serif"],
                         serif: ["Playfair Display", "serif"],
+                    },
+                    backgroundImage: {
+                        'glass-gradient': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
                     }
                 },
             },
         }
     </script>
     <style>
-        /* 두 번째 파일의 glass 디자인 및 투명도 완벽 재현 */
+        /* 두 번째 스크린샷 헤더의 투명도와 블러감 완벽 적용 */
         .glass {
-            background: rgba(244, 241, 234, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(244, 241, 234, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(154, 74, 60, 0.08);
         }
         .dark .glass {
-            background: rgba(30, 27, 24, 0.8);
+            background: rgba(30, 27, 24, 0.75);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
+        /* 첫 번째 스크린샷의 카드용 glass-card 스타일 유지 */
         .glass-card {
             background: rgba(227, 222, 213, 0.3);
             backdrop-filter: blur(12px);
@@ -53,53 +57,50 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(184, 134, 11, 0.4);
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-stone-900 dark:text-stone-100 font-display transition-colors duration-300 min-h-screen flex flex-col">
 
-    <!-- 🌟 두 번째 파일의 크기(h-14, px-4)와 스타일을 완벽하게 반영한 헤더 -->
-    <header class="glass sticky top-0 z-50 flex h-14 w-full items-center justify-between px-4 shrink-0">
-        <div class="flex items-center gap-4">
-            <a class="flex items-center gap-2 text-stone-900 dark:text-white" href="#">
-                <div class="flex h-6 w-6 items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-xl">planet</span>
+    <header class="glass sticky top-0 z-50 flex items-center justify-between whitespace-nowrap px-6 py-4 lg:px-10">
+        <div class="flex items-center gap-8">
+            <div class="flex items-center gap-3 text-stone-900 dark:text-white">
+                <div class="size-8 text-primary">
+                    <span class="material-symbols-outlined text-3xl">planet</span>
                 </div>
-                <!-- 소문자 로고 및 스타일 일치 -->
-                <span class="text-sm font-bold tracking-tight font-display">a.palebluedot23</span>
-            </a>
-            <nav class="hidden md:flex items-center gap-4">
-                <a class="text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Exhibitions</a>
-                <a class="text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Artists</a>
-                <a class="text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Learn</a>
-                <a class="text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Shop</a>
+                <h2 class="text-lg font-bold tracking-tight font-display">
+                    a.palebluedot23</h2>
+            </div>
+            <nav class="hidden md:flex items-center gap-6">
+                <a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors uppercase tracking-wider" href="#">Exhibitions</a>
+                <a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors uppercase tracking-wider" href="#">Artists</a>
+                <a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors uppercase tracking-wider" href="#">Learn</a>
+                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors uppercase tracking-wider" href="#">Shop</a>
             </nav>
         </div>
-        
-        <div class="flex items-center gap-3">
-            <!-- 검색바 크기 및 인풋 스타일 완벽 일치 -->
-            <label class="hidden sm:relative sm:flex items-center min-w-[160px] max-w-[240px]">
-                <div class="absolute left-3 flex items-center pointer-events-none text-stone-400">
-                    <span class="material-symbols-outlined text-lg">search</span>
+        <div class="flex items-center gap-4 md:gap-6">
+            <label class="hidden lg:flex relative group min-w-40 max-w-64">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-stone-400 group-focus-within:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
                 </div>
-                <input class="h-8 w-full rounded-full bg-stone-200/50 dark:bg-stone-800/50 border-none pl-9 pr-4 text-xs text-stone-900 dark:text-white placeholder:text-stone-400 focus:ring-1 focus:ring-primary focus:bg-transparent transition-all" placeholder="Search archives..." type="text"/>
+                <input class="block w-full rounded-full bg-stone-200/60 dark:bg-stone-800/50 border-none py-2 pl-10 pr-4 text-sm text-stone-900 dark:text-white placeholder:text-stone-500 focus:ring-2 focus:ring-primary focus:bg-transparent transition-all" placeholder="Search archives..." type="text"/>
             </label>
-            
-            <div class="flex items-center gap-2">
-                <button class="flex h-8 items-center justify-center rounded-full px-4 bg-transparent border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-white text-xs font-medium hover:bg-stone-200/50 dark:hover:bg-stone-800 transition-all">
+            <div class="flex gap-3">
+                <button class="flex items-center justify-center rounded-full h-9 px-5 bg-transparent border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-white text-xs font-bold uppercase tracking-wider hover:bg-stone-200/50 dark:hover:bg-stone-800 transition-all">
                     Sign In
                 </button>
-                <button class="flex h-8 items-center justify-center rounded-full px-4 bg-primary text-white text-xs font-medium hover:bg-amber-700 shadow-[0_0_15px_rgba(184,134,11,0.2)] transition-all">
+                <button class="flex items-center justify-center rounded-full h-9 px-5 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-amber-700 shadow-[0_0_15px_rgba(184,134,11,0.3)] transition-all">
                     Join
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content (기존 본문 레이아웃 유지) -->
     <main class="flex-grow flex flex-col items-center py-10 px-6 sm:px-10">
         <div class="w-full max-w-[1200px] flex flex-col gap-10">
             
-            <!-- Header Section -->
             <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-stone-300 dark:border-white/10 pb-8">
                 <div class="flex flex-col gap-4 max-w-2xl">
                     <h1 class="text-5xl md:text-6xl font-black tracking-tighter text-stone-900 dark:text-white">
@@ -110,7 +111,7 @@
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <button class="size-10 rounded-full border border-stone-300 dark:border-white/10 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-white/5 transition-colors text-stone-880 dark:text-white">
+                    <button class="size-10 rounded-full border border-stone-300 dark:border-white/10 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-white/5 transition-colors text-stone-800 dark:text-white">
                         <span class="material-symbols-outlined">grid_view</span>
                     </button>
                     <button class="size-10 rounded-full border border-stone-300 dark:border-white/10 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-white/5 transition-colors text-stone-400 dark:text-slate-500">
@@ -119,7 +120,6 @@
                 </div>
             </div>
 
-            <!-- Filter Tags -->
             <div class="flex gap-3 flex-wrap">
                 <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white text-sm font-medium shadow-[0_0_10px_rgba(184,134,11,0.4)]">
                     <span class="material-symbols-outlined text-[18px]">all_inclusive</span>
@@ -143,10 +143,8 @@
                 </button>
             </div>
 
-            <!-- Floating Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 
-                <!-- Card 1 -->
                 <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
@@ -164,7 +162,6 @@
                     </div>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
@@ -182,7 +179,6 @@
                     </div>
                 </div>
 
-                <!-- Card 3 -->
                 <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
@@ -200,7 +196,6 @@
                     </div>
                 </div>
 
-                <!-- Card 4 -->
                 <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
                     <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                         <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
@@ -220,7 +215,6 @@
 
             </div>
 
-            <!-- Feature Block -->
             <div class="relative w-full rounded-2xl overflow-hidden mt-8 border border-stone-300 dark:border-white/10 group">
                 <div class="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent z-10"></div>
                 <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" data-alt="Artistic workshop with pottery tools and clay" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeCJ6pg1igjw1G5z8vNbLiZAEMnCbAv8ReHFC-L3mtrsM2AcHKCyiHNT7FrpnMhMtUw-y6uwOl2KblVzfRdf9mwHAu2Qn7Yp7M6OTjOAgr9sx8j3xB_58_7Dku9dG6zpLhzoXcCj-QXkhAIr5Uu7fjFci0Ue-cAGEwXiIffEoMP6vVDxSiOSuwRVX4Aed9M6QRYtgNRBbSInuiIeTAzxZratkIq01GYXoM_GZ47myJhS-QIMOs3Qv3XuQUXmYH2SlAi53PjSUoT3o");'></div>
