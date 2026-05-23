@@ -1,150 +1,233 @@
 <!DOCTYPE html>
 <html class="light" lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>a.palebluedot : My Ceramics</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/works.css">
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#b08d75",
-            "background-light": "#f8f7f5",
-            "text-dark": "#2d2a26",
-            "text-muted": "#5c5853",
-            "glass-light": "rgba(255, 255, 255, 0.65)",
-            "glass-border": "rgba(255, 255, 255, 0.8)",
-            "grass-green": "#7da66a",
-          },
-          fontFamily: {
-            "display": ["Noto Serif", "serif"],
-            "sans": ["Noto Sans", "sans-serif"],
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-        },
-      },
-    }
-  </script>
-  
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .glass-panel {
-        @apply bg-glass-light backdrop-blur-xl border border-glass-border shadow-[0_8px_32px_rgba(0,0,0,0.05)];
-      }
-      .glass-button {
-        @apply bg-white/40 backdrop-blur-md hover:bg-white/60 transition-all border border-white/50 text-text-dark shadow-sm hover:shadow-md;
-      }
-      .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .leaf-shadow {
-        background-image: radial-gradient(rgba(0, 0, 0, 0.3) 15%, transparent 16%),
-          radial-gradient(rgba(0, 0, 0, 0.2) 15%, transparent 16%);
-        background-size: 60px 60px;
-        background-position: 0 0, 30px 30px;
-      }
-    }
-  </style>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Ceramic Department Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght=300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b8860b", // 따뜻한 분위기에 어울리는 고급스러운 골든 브라운
+                        "background-light": "#f4f1ea", // 차가운 샌드 대신 따뜻한 온기가 도는 웜 베이지
+                        "background-dark": "#1e1b18", // 너무 차갑지 않은 웜 흑색/다크 브라운
+                        "surface-dark": "#2a2622", // 다크모드용 매트한 흙색 표면
+                        "clay-red": "#9a4a3c", // 전통적인 도자기 느낌의 테라코타 레드
+                        "sand": "#e3ded5", // 은은한 도자 표면 느낌의 샌드 베이지
+                    },
+                    fontFamily: {
+                        display: ["Manrope", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'glass-gradient': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Glassmorphism utilities - 따뜻한 베이지 톤과 어우러지도록 매칭 */
+        .glass-card {
+            background: rgba(227, 222, 213, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(154, 74, 60, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-card {
+            background: rgba(42, 38, 34, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(184, 134, 11, 0.4);
+        }
+    </style>
 </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-stone-900 dark:text-stone-100 min-h-screen flex flex-col overflow-x-hidden antialiased">
 
-<body class="bg-background-light text-text-dark overflow-hidden h-svh w-screen relative font-sans">
-  <div class="white-flash-overlay" id="whiteFlash"></div>
-
-  <div class="absolute inset-0 z-0 bg-[#f4f2f0] overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#ffffff]/80 via-[#f7f5f3]/40 to-transparent"></div>
-    <div class="absolute bottom-0 left-0 w-full h-[45vh] z-10">
-      <img alt="Lush Green Grass Foreground" class="w-full h-full object-cover object-top opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChfzKMtGy9Q_-EuKarLmKpFzpn_TXijS4k0d4qAp_CMX4Pt2IkZciwVY49QiJzn6BpoAKihjA6SALIrXiMnf_38gy4-1Xqx-zRggLEAFuGV0oTTthJAcvZeecINfO__BAMGh1g3XNU9-CcEJ3_130TupIMxhwoj3dnLfqJTnsMcs3xvVJ99cDM5NAnprnW1Dzzv7yn0xLG3EV08OUx7u_EiK9eqKRML8VVIMaVK-zg5MFx6IIJRuGMSUl_fnuGI2j3Nxp-HmCfSOUk" style="mask-image: linear-gradient(to top, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);" />
-    </div>
-    <div class="absolute -top-20 left-1/3 w-[120vw] h-[120vh] bg-gradient-to-br from-yellow-100/30 via-white/20 to-transparent rotate-12 blur-3xl pointer-events-none z-20"></div>
-    <div class="absolute top-0 left-0 w-1/3 h-full z-20 pointer-events-none">
-      <img alt="Tree Canopy Left" class="absolute top-0 left-0 w-full h-[120%] md:h-full object-cover object-right opacity-90 transform -translate-x-10 scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpMqb8_6CM32MCvTHwBR048zeAsv_N9t6O2Ad8i7dLlC2JInKx1plMRLhLVwEZQQg_dG0-Yj3O24iFOmIMOUOUPJ1rOSyfcBh_zMvC-mB1_VscRSKWRYbqvnP_q2iqyxF1DScWjrpRTYkdbRzNuwWsmYVwrAtMpOhMRFiy5zp2Ke94ObOHTQ1SCCE92iWXpH3SnGmy90G18_JGIA6jSOcVuybX1MFdL5F-JKjQPlxE_ubJ8VL6CiBYSgz5GqglwOtbvJbOSEpeVWfU" style="mask-image: linear-gradient(to right, black, transparent); -webkit-mask-image: linear-gradient(to right, black, transparent); filter: blur(1px);" />
-    </div>
-    <div class="absolute top-0 right-0 w-1/3 h-full z-20 pointer-events-none">
-      <img alt="Tree Canopy Right" class="absolute top-0 right-0 w-full h-[120%] md:h-full object-cover object-left opacity-90 transform translate-x-10 scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpdbWtkKfaaew97htHoQ9erLLJ8g-9jNEPTX-t-CTJWi6fLSinE760JzemlIEIY3qvWQhrE5ox-vlYV0dhDirgQkHDyh0tUIZi7b4UFYkj59V5mHmEV80jJ0O861QS9JDKJ0gHDlcPYHuX0Th8_a3nCQjvNMkYc-PbqSTTBne8ZBEjRUip2cgVrPMirSTA9j8oCNrkXV7JJJPdmEJ_i5UMhUFmKt_Q8hwCwB1Vr5aZctyFxs1VdWu1aYfUjShpESALdVap5Jq0XiIg" style="mask-image: linear-gradient(to left, black, transparent); -webkit-mask-image: linear-gradient(to left, black, transparent); filter: blur(1px);" />
-    </div>
-    <div class="absolute top-0 left-0 w-full h-full z-15 pointer-events-none opacity-30 mix-blend-overlay leaf-shadow"></div>
-    
-    <div class="absolute top-[45%] md:top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[75vw] md:w-[90vw] md:h-[90vw] max-w-[800px] max-h-[600px] flex items-center justify-center z-20">
-      <div class="flex flex-col items-center gap-4 w-full">
-        <p class="text-[12px] md:text-xs font-bold text-text-muted drop-shadow-sm text-center animate-pulse">
-          이미지를 누르면 정보를 확인할 수 있습니다.
-        </p>
-        <div id="carousel-container" class="relative z-30 w-full max-w-[420px] aspect-square flex items-center justify-center hidden transition-transform duration-700 hover:scale-105" style="filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25)); perspective: 1000px;">
-          <div id="error-message" class="hidden absolute inset-0 flex items-center justify-center text-center text-text-muted font-bold text-lg p-10 bg-white/20 rounded-full backdrop-blur-sm z-[60]">
-            오류가 발생했습니다.
-          </div>
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 glass-card border-b border-stone-200 dark:border-white/10 px-8 py-4">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-3 text-stone-900 dark:text-white">
+                    <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+                        <span class="material-symbols-outlined text-xl">tile_medium</span>
+                    </div>
+                    <h2 class="text-stone-900 dark:text-white text-xl font-bold tracking-tight">Ceramic Arts Korea</h2>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a class="text-stone-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Exhibitions</a>
+                    <a class="text-stone-900 dark:text-white text-sm font-medium" href="#">Departments</a>
+                    <a class="text-stone-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">History</a>
+                    <a class="text-stone-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Shop</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden lg:flex items-center bg-stone-200/60 dark:bg-surface-dark rounded-full px-4 py-2 border border-stone-300 dark:border-white/5 focus-within:border-primary/50 transition-colors w-64">
+                    <span class="material-symbols-outlined text-stone-500 dark:text-slate-400 text-[20px]">search</span>
+                    <input class="bg-transparent border-none text-sm text-stone-900 dark:text-white placeholder-stone-400 dark:placeholder-slate-500 focus:ring-0 w-full ml-2" placeholder="Search archives..." type="text"/>
+                </div>
+                <button class="bg-primary hover:bg-amber-700 text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all shadow-[0_0_15px_rgba(184,134,11,0.3)]">
+                    Sign In
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="relative z-30 flex flex-col h-full pointer-events-none">
-    <header class="flex justify-between items-start pointer-events-auto px-6 pt-6 md:px-8 md:pt-8 shrink-0">
-      <div class="p-4 flex items-center gap-4">
-        <div>
-          <h1 class="text-xl md:text-2xl font-display font-bold leading-none tracking-wide text-black drop-shadow-[0_4px_3px_rgba(0,0,0,0.3)]">
-            My Ceramics
-          </h1>
-        </div>
-      </div>
-      <nav id="nav-pc" class="hidden md:flex glass-panel rounded-2xl px-2 py-2 gap-1 bg-white/70">
-      </nav>
-      <button class="md:hidden glass-button size-12 rounded-full flex items-center justify-center text-text-dark">
-        <span class="material-symbols-outlined">menu</span>
-      </button>
     </header>
 
-    <div class="flex-1 min-h-0"></div>
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center py-10 px-6 sm:px-10">
+        <div class="w-full max-w-[1200px] flex flex-col gap-10">
+            
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-stone-300 dark:border-white/10 pb-8">
+                <div class="flex flex-col gap-4 max-w-2xl">
+                    <h1 class="text-5xl md:text-6xl font-black tracking-tighter text-stone-900 dark:text-white">
+                        Department <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-amber-600">Explorer</span>
+                    </h1>
+                    <p class="text-stone-600 dark:text-slate-400 text-lg font-light leading-relaxed">
+                        Navigate the disciplines defining our heritage. From the jade hues of Goryeo to the pure white of Joseon, explore the fusion of earth and fire.
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="size-10 rounded-full border border-stone-300 dark:border-white/10 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-white/5 transition-colors text-stone-800 dark:text-white">
+                        <span class="material-symbols-outlined">grid_view</span>
+                    </button>
+                    <button class="size-10 rounded-full border border-stone-300 dark:border-white/10 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-white/5 transition-colors text-stone-400 dark:text-slate-500">
+                        <span class="material-symbols-outlined">list</span>
+                    </button>
+                </div>
+            </div>
 
-    <footer class="w-full pointer-events-auto pb-[calc(2rem+env(safe-area-inset-bottom))] md:pb-8 px-6 md:px-8 shrink-0">
-    </footer>
-  </div>
+            <!-- Filter Tags -->
+            <div class="flex gap-3 flex-wrap">
+                <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white text-sm font-medium shadow-[0_0_10px_rgba(184,134,11,0.4)]">
+                    <span class="material-symbols-outlined text-[18px]">all_inclusive</span>
+                    All Disciplines
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-stone-200 dark:bg-surface-dark hover:bg-stone-300 dark:hover:bg-stone-800 border border-stone-300 dark:border-white/5 hover:border-primary/30 transition-all text-stone-800 dark:text-slate-300 text-sm font-medium group">
+                    <span class="material-symbols-outlined text-[18px] text-stone-500 dark:text-slate-500 group-hover:text-primary transition-colors">eco</span>
+                    Celadon
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-stone-200 dark:bg-surface-dark hover:bg-stone-300 dark:hover:bg-stone-800 border border-stone-300 dark:border-white/5 hover:border-primary/30 transition-all text-stone-800 dark:text-slate-300 text-sm font-medium group">
+                    <span class="material-symbols-outlined text-[18px] text-stone-500 dark:text-slate-500 group-hover:text-primary transition-colors">landscape</span>
+                    Buncheong
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-stone-200 dark:bg-surface-dark hover:bg-stone-300 dark:hover:bg-stone-800 border border-stone-300 dark:border-white/5 hover:border-primary/30 transition-all text-stone-800 dark:text-slate-300 text-sm font-medium group">
+                    <span class="material-symbols-outlined text-[18px] text-stone-500 dark:text-slate-500 group-hover:text-primary transition-colors">circle</span>
+                    Porcelain
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 rounded-full bg-stone-200 dark:bg-surface-dark hover:bg-stone-300 dark:hover:bg-stone-800 border border-stone-300 dark:border-white/5 hover:border-primary/30 transition-all text-stone-800 dark:text-slate-300 text-sm font-medium group">
+                    <span class="material-symbols-outlined text-[18px] text-stone-500 dark:text-slate-500 group-hover:text-primary transition-colors">manufacturing</span>
+                    Earthenware
+                </button>
+            </div>
 
-  <div id="info-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div id="modal-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity cursor-pointer"></div>
-    <div class="relative glass-panel rounded-2xl p-6 w-[90vw] md:w-96 transform transition-all bg-white/90 backdrop-blur-2xl shadow-2xl animate-[fadeIn_0.3s_ease-out]">
-      <button id="btn-close-modal" class="absolute top-4 right-4 text-text-dark/50 hover:text-text-dark transition-colors pointer-events-auto">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+            <!-- Floating Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
+                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
+                    </div>
+                    <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Close up of green celadon vase texture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBS2YEi23AXPIcKZoIVO8XlBJaJi4eENdLgjYZo-t7QmjvI4DxC37h7Dj3xkRhZPNNycv62YSxuJyVKEavIxYTEY50GJSnIfGwdOgxljF_JOurv7D_GrskiParKRhbWq9zA7ty757WjfcMxcaTcXiZh8cfHKk_DCZZYWraWxFFgvZd46Ywqdn5dhZ4JEkjNTegi425KDqbeGrYs27--qHmVVOJICBTA92MtenHwYJhkBbecl6efpMd8zwjVDolZNpAr-QRR4IvQj2s");'></div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-clay-red uppercase tracking-widest">12th Century</span>
+                        </div>
+                        <h3 class="text-stone-900 dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Goryeo Celadon</h3>
+                        <p class="text-stone-600 dark:text-slate-400 text-sm line-clamp-2">Renowned for its exquisite jade-green glaze and inlaid designs known as sanggam.</p>
+                    </div>
+                </div>
 
-      <h2 id="info-title" class="text-lg font-bold text-text-dark mb-2"></h2>
-      <p id="info-desc" class="text-sm font-sans text-text-muted leading-relaxed mb-6 font-medium">
-      </p>
-      <div class="flex items-center justify-between border-t border-text-dark/10 pt-4">
-        <div>
-          <p id="info-year" class="text-sm font-bold text-text-dark"></p>
+                <!-- Card 2 -->
+                <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
+                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
+                    </div>
+                    <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Textured grey pottery surface detail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwO_f4YQZLj_reGo3J9T2v2A2ipW9aXDY_b96QaB1ZsDHEPT3LhGmm7bjnk8HgpJUi_CZwa7nrEi3JHsamqW06mkYDo_aQKS3IbG1WFHXNu80ZgtrM9MjEvqNkCtSaAffOzbMH0KA0cYsiY_X5a0A2FbDNc_SiPXkY76d5ZKtzDTw6y98YKN7Nt8d8WViL4OLRZIhqS89CSBRsIBO8DDGc12O4_fTxzxadbUqVIYB7eo5v0SX_HXQVcBWBN9quG8QmYNsfB0O0YPw");'></div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-clay-red uppercase tracking-widest">15th Century</span>
+                        </div>
+                        <h3 class="text-stone-900 dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Buncheong Ware</h3>
+                        <p class="text-stone-600 dark:text-slate-400 text-sm line-clamp-2">Characterized by white slip applied to grey clay, often with bold, carefree brushstrokes.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
+                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
+                    </div>
+                    <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Minimalist white ceramic bowl on dark background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDo5Kg9Rf1Ihf1nC-AXXU-Z0W9EDysQqtFK8v3wW45bguBPLt2qkWBsdwXFldNy_GMli1-oC5tLmPOLwGbNmQDmPdFyLwY72mZZ0uIIrQVqFmNcm6EywlB7YmmQ74A07RidJ6lejK4JoZAM16BUzFY8j6B27qsAWJ5BYMlKc9vb_2P-oXEqlPFeKBtYF_cQ75unSUqrGNKUHgEwielqTS0lA5b3dn-AG8MBXmgpHldpLi_tHd9QpjCXSEG5SxZzK-txK7kiuI1RIKY");'></div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-clay-red uppercase tracking-widest">Joseon Dynasty</span>
+                        </div>
+                        <h3 class="text-stone-900 dark:text-white text-xl font-bold group-hover:text-primary transition-colors">White Porcelain</h3>
+                        <p class="text-stone-600 dark:text-slate-400 text-sm line-clamp-2">Symbolizing Confucian virtues of purity and frugality, often decorated with cobalt blue.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="group relative flex flex-col gap-4 p-4 rounded-2xl glass-card hover:-translate-y-2 transition-transform duration-300 cursor-pointer bg-white dark:bg-surface-dark">
+                    <div class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-white bg-primary rounded-full p-1 text-sm">arrow_outward</span>
+                    </div>
+                    <div class="w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Large dark brown earthenware jar breathing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXyGLZNFhdYMwmjs_PUkpLcABO-dm-kZMJt0asfPsyb_LsLWbFTQd1RztVnpeN0878f2YNUJhkOBmP14eJKhLduEKwyzk1qfaLsZoMxT9FIBKCGeIknLYtKN2xIYfnOPQvActT9xsYdAJAw57k279M46QC4HcpPNmQWGuXyEZWqqqO3bv49fR-gW57YVHzEWD1P22Kf9pMZaXwjOzWCOTMkxh14COCFu2vZze-P-mh5yxpF4HTwm0YCwi3-qcXscFtEvkEHdaTOgw");'></div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-clay-red uppercase tracking-widest">Traditional</span>
+                        </div>
+                        <h3 class="text-stone-900 dark:text-white text-xl font-bold group-hover:text-primary transition-colors">Onggi Earthenware</h3>
+                        <p class="text-stone-600 dark:text-slate-400 text-sm line-clamp-2">Breathing pottery essential for fermenting kimchi and sauces, rooted in daily life.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Feature Block -->
+            <div class="relative w-full rounded-2xl overflow-hidden mt-8 border border-stone-300 dark:border-white/10 group">
+                <div class="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" data-alt="Artistic workshop with pottery tools and clay" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeCJ6pg1igjw1G5z8vNbLiZAEMnCbAv8ReHFC-L3mtrsM2AcHKCyiHNT7FrpnMhMtUw-y6uwOl2KblVzfRdf9mwHAu2Qn7Yp7M6OTjOAgr9sx8j3xB_58_7Dku9dG6zpLhzoXcCj-QXkhAIr5Uu7fjFci0Ue-cAGEwXiIffEoMP6vVDxSiOSuwRVX4Aed9M6QRYtgNRBbSInuiIeTAzxZratkIq01GYXoM_GZ47myJhS-QIMOs3Qv3XuQUXmYH2SlAi53PjSUoT3o");'></div>
+                <div class="relative z-20 flex flex-col md:flex-row items-center justify-between p-8 md:p-12 gap-8">
+                    <div class="flex flex-col gap-4 max-w-xl">
+                        <div class="flex items-center gap-2 text-primary font-bold tracking-widest text-xs uppercase">
+                            <span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Featured Master
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Park Seo-Bo: The Rhythm of Nature</h2>
+                        <p class="text-stone-200 text-base leading-relaxed">
+                            An exclusive look into how the Dansaekhwa movement influences modern ceramic textures. Discover the intersection of minimalist painting and clay craftsmanship.
+                        </p>
+                    </div>
+                    <button class="shrink-0 flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-6 py-4 rounded-xl border border-white/10 transition-all group-hover:border-primary/50">
+                        <span class="font-bold">Read the Interview</span>
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="mobile-menu" class="hidden fixed inset-0 z-[60] flex flex-col bg-background-light/95 backdrop-blur-xl p-8 animate-[fadeIn_0.2s_ease-out]">
-    <div class="flex justify-end">
-      <button id="btn-close-menu" class="glass-button size-12 rounded-full flex items-center justify-center text-text-dark">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <nav id="nav-mobile" class="flex flex-col gap-6 mt-12 text-center">
-    </nav>
-  </div>
-
-  <script src="js/works.js"></script>
+    </main>
 </body>
 </html>
